@@ -1,0 +1,26 @@
+[
+  {
+    "d": 1,
+    "M": 0.9851495826644048,
+    "lemma_2_3_bound_holds_for_all_trials": true,
+    "max_g_lipschitz_ratio": 0.5586065874677089,
+    "g_lipschitz_bound_holds_for_all_pairs": true,
+    "max_identity_abs_discrepancy": 0.0025342681075612994,
+    "max_identity_rel_discrepancy": 0.005100439060415996,
+    "v_lipschitz_bound_holds_for_all_trials": true,
+    "f_convexity_holds_for_all_pairs": true,
+    "attainment_relative_w2": 0.0011026108519877926
+  },
+  {
+    "d": 2,
+    "M": 0.9652375996159889,
+    "lemma_2_3_bound_holds_for_all_trials": true,
+    "max_g_lipschitz_ratio": 0.5833925363395565,
+    "g_lipschitz_bound_holds_for_all_pairs": true,
+    "max_identity_abs_discrepancy": 0.009171641123709606,
+    "max_identity_rel_discrepancy": 0.01092197459532762,
+    "v_lipschitz_bound_holds_for_all_trials": true,
+    "f_convexity_holds_for_all_pairs": true,
+    "attainment_relative_w2": 0.014690563645841008
+  }
+]

@@ -1,0 +1,84 @@
+[
+  {
+    "d": 1,
+    "b": 0.14893837061896972,
+    "M": 0.9849065519104798,
+    "R_summary": [
+      {
+        "R": 0.5,
+        "L": 52.90277033741289,
+        "m_R": 0.0,
+        "log_m_R": -2858.7682788667344,
+        "sc_min_residual": 0.000800363819154765,
+        "sc_mean_residual": 0.0030039975564606766,
+        "sc_holds_all": true,
+        "lemma31_holds_all": true,
+        "rho_above_threshold_all": true
+      },
+      {
+        "R": 0.8,
+        "L": 68.77360143863675,
+        "m_R": 0.0,
+        "log_m_R": -4847.660780563013,
+        "sc_min_residual": 0.00457228986602117,
+        "sc_mean_residual": 0.008115906074285133,
+        "sc_holds_all": true,
+        "lemma31_holds_all": true,
+        "rho_above_threshold_all": true
+      },
+      {
+        "R": 1.2,
+        "L": 89.9347095736019,
+        "m_R": 0.0,
+        "log_m_R": -8312.978316472098,
+        "sc_min_residual": 0.0113406409056819,
+        "sc_mean_residual": 0.017977384478814442,
+        "sc_holds_all": true,
+        "lemma31_holds_all": true,
+        "rho_above_threshold_all": true
+      }
+    ],
+    "log_m_R_strictly_decreasing": true
+  },
+  {
+    "d": 2,
+    "b": 0.12147512966271891,
+    "M": 0.9841023572705632,
+    "R_summary": [
+      {
+        "R": 0.5,
+        "L": 78.23274654762776,
+        "m_R": 0.0,
+        "log_m_R": -6206.699407339103,
+        "sc_min_residual": -0.006567205208952062,
+        "sc_mean_residual": 0.0059230876597104526,
+        "sc_holds_all": true,
+        "lemma31_holds_all": true,
+        "rho_above_threshold_all": true
+      },
+      {
+        "R": 0.8,
+        "L": 97.67578533266237,
+        "m_R": 0.0,
+        "log_m_R": -9705.55629065818,
+        "sc_min_residual": -8.775754688567644e-06,
+        "sc_mean_residual": 0.013885247342471312,
+        "sc_holds_all": true,
+        "lemma31_holds_all": true,
+        "rho_above_threshold_all": true
+      },
+      {
+        "R": 1.2,
+        "L": 123.59983704604184,
+        "m_R": 0.0,
+        "log_m_R": -15583.310716037631,
+        "sc_min_residual": 0.011905973258036662,
+        "sc_mean_residual": 0.02886937593247858,
+        "sc_holds_all": true,
+        "lemma31_holds_all": true,
+        "rho_above_threshold_all": true
+      }
+    ],
+    "log_m_R_strictly_decreasing": true
+  }
+]
