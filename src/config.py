@@ -60,7 +60,7 @@ EXP3_LEMMA31_N_MC = 20000      # Monte Carlo sample size for the directional-der
 # ---------------------------------------------------------------------------
 EXP4_DT = 0.05                 # Euler step size dt for the gradient flow dZ/dt = -g(Z) (not specified in the paper)
 EXP4_N_STEPS_PAPER = 800       # number of Euler steps in the paper configuration (not specified in the paper; chosen for clear exponential decay)
-EXP4_N_STEPS_RUN = 300         # number of Euler steps actually executed (reduced to keep the full study within the time available)
+EXP4_N_STEPS_RUN = 800         # number of Euler steps actually executed (equal to the paper-scale count; this configuration completes quickly enough to run by default)
 EXP4_Z0_SCALE = 1.6            # initial vector Z0 = EXP4_Z0_SCALE * x_atoms (a bounded, L^infinity-valued perturbation of X)
 EXP4_FIT_SKIP_FRACTION = 0.15  # fraction of early iterations excluded from the log-linear decay-rate fit (transient removal)
 EXP4_FLOW_K_GAMMA = 60         # Gamma replicates per atom for the gradient-flow steps themselves (not specified in the paper): larger than the shared K_GAMMA because the flow reuses one fixed Gamma draw along the whole trajectory (common random numbers), so the finite-K Monte Carlo noise of the discrete-OT estimator of both g and V, not just a bias, must be small enough that the flow tracks the population ODE of Theorem 1.2 and the V(Z_t) decay-rate fit is not swamped by sampling noise
@@ -70,7 +70,7 @@ EXP4_FLOW_K_GAMMA = 60         # Gamma replicates per atom for the gradient-flow
 # ---------------------------------------------------------------------------
 EXP5_DT = 0.05                 # Euler step size dt for the gradient flow reused from Theorem 1.2 (shared with exp_4)
 EXP5_N_STEPS_PAPER = 800       # paper-scale number of flow steps from which Bass martingales are built (matches EXP4_N_STEPS_PAPER)
-EXP5_N_STEPS_RUN = 300         # reduced number of flow steps actually executed (matches EXP4_N_STEPS_RUN)
+EXP5_N_STEPS_RUN = 800         # number of flow steps actually executed (matches EXP4_N_STEPS_RUN; paper-scale run completes quickly enough to use by default)
 EXP5_EVAL_TIMES = (0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0)  # stopping times t at which the martingale error is evaluated
 EXP5_N_BRIDGE_PATHS = 2000     # inner Monte Carlo sample size for the Brownian-bridge conditional expectation defining M_s (Section 5)
 EXP5_BRIDGE_S_GRID = (0.0, 0.25, 0.5, 0.75, 1.0)  # times s in [0,1] at which the Bass martingale M_s is evaluated

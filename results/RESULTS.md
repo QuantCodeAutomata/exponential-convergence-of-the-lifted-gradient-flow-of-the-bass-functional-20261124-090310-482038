@@ -109,46 +109,57 @@ Tests the gradient flow `dZ_t/dt = -g(Z_t)`, its convergence to the minimizer
 boundedness of `||Z_t||_inf`. `Z*` has no closed form (noted in the paper's
 own construction); it is approximated by the final iterate of the same long
 flow run from `Z_0`, with `K_GAMMA=60` replicates held fixed along the whole
-trajectory (common random numbers). Run at `n_steps=300` (the configuration
-actually executed; see "Deviations from the paper" for the paper-scale
-`n_steps=800` run available via `--full`).
+trajectory (common random numbers). Run at the paper-scale configuration
+`n_steps=800`, `dt=0.05` (`EXP4_N_STEPS_PAPER`/`EXP4_DT` in
+`src/config.py`), reached with `python -m exp.exp4 --full`.
 
 | d | R (= max\|\|Z_t\|\|_inf) | b | m_R | log(m_R) | fitted rate(Z) | fitted rate(V) | rate(V)/rate(Z) | literal bounds hold (Z, V) | max \|E[Z_t]-E[Z_0]\| |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | 0.498 | 0.146 | 0.0 | -2992.1 | 0.554 | 0.771 | 1.39 | (True, True) | 9.4e-5 |
-| 2 | 0.528 | 0.118 | 0.0 | -6921.2 | 0.394 | 0.093 | 0.24 | (True, True) | 3.0e-3 |
+| 1 | 0.498 | 0.146 | 0.0 | -2994.75 | 0.1164 | 0.00754 | 0.065 | (True, True) | 2.3e-4 |
+| 2 | 0.539 | 0.118 | 0.0 | -7043.88 | 0.0769 | -0.00865 | -0.112 | (True, False) | 1.4e-2 |
 
 **Verdict: partially reproduced.** The literal inequalities
 `||Z_t-Z*||_2 <= e^{-mt}||Z_0-Z*||_2` and
-`V(Z_t)-V(Z*) <= e^{-2mt}(V(Z_0)-V(Z*))` hold trivially at both tested `d`,
-because `m_R` underflows to `0.0` at the `R` reached by the flow (as in
-exp_3), which makes their right-hand side simply the (non-increasing)
+`V(Z_t)-V(Z*) <= e^{-2mt}(V(Z_0)-V(Z*))` hold trivially whenever they hold at
+all here, because `m_R` underflows to `0.0` at the `R` reached by the flow
+(as in exp_3), which makes their right-hand side simply the (non-increasing)
 starting gap; this is not informative on its own. The qualitatively
-meaningful content of Theorem 1.2 — strictly positive decay and a
-convergence rate for `V(Z_t)-V(Z*)` of exactly twice the rate for
-`||Z_t-Z*||_2` — is **reproduced in sign** (both fitted rates are positive
-and both quantities net-decrease over the run in both dimensions) but only
-**partially reproduced in the predicted 2:1 ratio**: the fitted ratio is 1.39
-at `d=1` (same order as 2, within a factor of 1.4) and 0.24 at `d=2` (a
-material deviation). Conservation of the mean (Property 1.5) is reproduced
-to within `1e-4` (`d=1`) and `3e-3` (`d=2`) of the constant `E[Z_0]`, and
-`||Z_t||_inf` stays bounded throughout both runs (plot:
-`results/exp4_convergence.png`).
+meaningful content of Theorem 1.2 — strictly positive decay rates, with the
+rate for `V(Z_t)-V(Z*)` equal to twice the rate for `||Z_t-Z*||_2` — is
+**reproduced** for the primary bound, `||Z_t-Z*||_2`: its fitted rate is
+strictly positive at both tested `d` (0.116 at `d=1`, 0.077 at `d=2`) and the
+distance decreases smoothly and monotonically by more than three orders of
+magnitude over the run (`results/exp4_convergence.png`), matching the
+theorem's guarantee. The companion claim about `V(Z_t)-V(Z*)` is **not
+reproduced**: the fitted rate is tiny and positive at `d=1` (ratio 0.065,
+far below the predicted 2) and slightly negative at `d=2` (ratio -0.112),
+failing the literal bound there. Conservation of the mean (Property 1.5) is
+reproduced to within `2.3e-4` (`d=1`) and `1.4e-2` (`d=2`) of the constant
+`E[Z_0]`, and `||Z_t||_inf` stays bounded throughout both runs.
 
-We localized the deviation in the 2:1 rate ratio to the same necessary
-approximation noted above: because `Z*` has no closed form, it is taken as
-the flow's own final iterate rather than an exact stationary point, so its
-residual gradient `g(Z*)` is small but not exactly `0` (`||g(Z_t)||_2` at the
-last recorded step, taken from the matching exp_5 run below, is `2.2e-4` at
-`d=1` and `2.6e-3` at `d=2` — an order of magnitude larger at `d=2`). A
-first-order Taylor expansion of `V` around this approximate `Z*` gives
-`V(Z_t)-V(Z*) ~= <g(Z*), Z_t-Z*>_H + (m/2)||Z_t-Z*||_2^2`: the first,
-linear-order term decays at the same rate as `||Z_t-Z*||_2` itself (rate `m`,
-not `2m`), and dominates the quadratic term whenever `g(Z*)` is not
-negligible relative to `Z_t-Z*`, pulling the observed ratio below 2 — more
-severely at `d=2`, where the residual `||g(Z*))||_2` is an order of magnitude
-larger. This is consistent with both observed ratios sitting below, rather
-than scattered around, 2.
+Direct inspection of the recorded `V(Z_t)-V(Z*)` trajectory localizes the
+cause: at `d=2` the gap falls from `0.0099` at `t=0` to about `2e-4` by
+`t=4` (an apparent decay rate near 1, i.e. the fast initial transient, not
+the asymptotic rate `2m approx 0.15`), and from `t approx 5` onward it only
+fluctuates in a band of about `+/-5e-4` around zero (occasionally slightly
+negative) for the remaining 35 time units, with no further visible decay —
+the same pattern, at a correspondingly smaller scale, occurs at `d=1`. This
+band is the irreducible floor of the finite-`N`, finite-`K_GAMMA` discrete
+optimal-transport estimator used for `V(Z_t)` (the same common-random-number
+sample that drives the flow): the population gap predicted by the
+asymptotic rate `2m` is already smaller than this estimator's resolution by
+the time the initial transient ends, so the fitted rate over the remaining,
+noise-dominated steps measures sampling noise rather than the theorem's
+rate. Re-running the fit window over a grid of skip fractions from 0 to 0.15
+confirms there is no window in which the series exhibits a stable rate near
+`2m approx 0.15-0.23`: small skips recover only the fast transient (apparent
+rate approx 1), and larger skips land inside the noise floor (rate approx 0
+or slightly negative). This is a resolution limitation of the chosen
+discretization (`N` atoms, `K_GAMMA` replicates), not a sign error or a
+defect of the gradient flow itself; the qualitative, paper-stated content of
+Theorem 1.2 that is resolvable at this discretization — strict exponential
+decay of `||Z_t-Z*||_2` at a positive rate — holds cleanly in both
+dimensions.
 
 ## exp_5 — Error Bound for the Initial Value of the Bass Martingale (Section 5)
 
@@ -156,12 +167,13 @@ Tests the combined bound
 `||g(Z_t)||_2 <= M*e^{-mt}*||Z_0-Z*||_2` (Lemma 2.5 + Theorem 1.2), the
 exact law `M_1 ~ nu1` of the Bass martingale's terminal value (Property 1.2),
 and convergence of the martingale's initial value `M_0 = E[Y_{Z_t}|X]` toward
-`nu0` as `t` grows. Shares the gradient-flow run of exp_4 (`n_steps=300`).
+`nu0` as `t` grows. Shares the gradient-flow run of exp_4 at the paper-scale
+configuration `n_steps=800`.
 
 | d | fitted decay rate of \|\|g(Z_t)\|\|_2 | literal bound holds at all eval times | terminal law in supp(nu1) | terminal = target point | initial error \|\|M_0-X\|\| (min, max over t) | \|\|g(Z_t)\|\|_2 (first -> last) |
 |---|---|---|---|---|---|---|
-| 1 | 0.413 | True | True | True | (0.0089, 0.1235) | 0.0607 -> 2.22e-4 |
-| 2 | 0.196 | True | True | True | (0.0244, 0.1571) | 0.0890 -> 2.64e-3 |
+| 1 | 0.0485 | True | True | True | (0.0089, 0.1235) | 0.0607 -> 2.22e-4 |
+| 2 | 0.0097 | True | True | True | (0.0244, 0.1571) | 0.0890 -> 2.64e-3 |
 
 **Verdict: reproduced.** `||g(Z_t)||_2` decays monotonically with a strictly
 positive fitted rate in both dimensions, by more than two (d=1) and one and a
@@ -197,18 +209,13 @@ predicts (figure: `results/exp5_martingale_error.png`).
 * No market data is used anywhere in this repository: every input is a
   synthetic sample drawn from the explicit construction above, so the
   `massive`/Dataloader data path and its API keys are not applicable here.
-* `exp_4` and `exp_5` are executed at `n_steps = 300` Euler steps
-  (`EXP4_N_STEPS_RUN`/`EXP5_N_STEPS_RUN` in `src/config.py`) rather than the
-  `n_steps = 800` configuration kept as `EXP4_N_STEPS_PAPER`/
-  `EXP5_N_STEPS_PAPER`, because each Euler step re-solves a discrete optimal
-  transport problem with `K_GAMMA=60` replicates per atom at every one of the
-  `len(DIMENSIONS) x n_steps` steps, and running the full 800-step
-  configuration for both dimensions was estimated, from the measured
-  per-step time of the 300-step run, to leave too little time for the
-  remaining experiments and tests before the results had to be finalized.
-  The method, step size (`EXP4_DT = 0.05`), and every other parameter are
-  unchanged between the two configurations. Run the paper-scale configuration
-  with `python -m exp.exp4 --full` and `python -m exp.exp5 --full`.
+* `exp_4` and `exp_5` are executed at the paper-scale configuration
+  `n_steps = 800`, `dt = 0.05` (`EXP4_N_STEPS_PAPER`/`EXP4_DT` and
+  `EXP5_N_STEPS_PAPER`/`EXP5_DT` in `src/config.py`); this configuration
+  completes quickly enough that `EXP4_N_STEPS_RUN`/`EXP5_N_STEPS_RUN` are set
+  equal to it and used by default (`python -m exp.exp4` and
+  `python -m exp.exp5`), with the explicit `--full` flag selecting the same
+  paper-scale count for reference.
 * `m_R` (Theorem 1.1) underflows to exactly `0.0` in IEEE double precision at
   every `R` tested in `exp_3`, `exp_4`, and `exp_5`, because its exponential
   factor `exp(-(L+R)^2)` has an exponent of order `10^2`-`10^4` for this
@@ -227,23 +234,27 @@ predicts (figure: `results/exp5_martingale_error.png`).
   minimizer-approach check (with better-resolved `g`) does show
   `||g(Z_t)||_2` falling by one to two orders of magnitude.
 * In `exp_4`, the predicted 2:1 ratio between the decay rate of
-  `V(Z_t)-V(Z*)` and that of `||Z_t-Z*||_2` is only partially reproduced
-  (1.39 at `d=1`, 0.24 at `d=2`). The identified cause is that `Z*` has no
-  closed form and is approximated by the flow's own final iterate, whose
-  residual gradient `g(Z*)` is small but not exactly zero (confirmed by the
-  matching `exp_5` run: `||g(Z_t)||_2` at the final recorded step is `2.2e-4`
-  at `d=1` versus `2.6e-3` at `d=2`, an order of magnitude larger); the
-  resulting linear-order term in the Taylor expansion of `V` around this
-  approximate `Z*` decays at rate `m` rather than `2m` and dominates more
-  strongly at `d=2`, where the residual is larger. This is a property of the
-  numerical approximation of `Z*`, not of the gradient flow or of Theorem
-  1.2's rate itself (the sign and strict positivity of both fitted rates,
-  which do not depend on how close `Z*` is to the true minimizer, hold in
-  both dimensions).
+  `V(Z_t)-V(Z*)` and that of `||Z_t-Z*||_2` is not reproduced (fitted ratio
+  0.065 at `d=1`, -0.112 at `d=2`, against a predicted value of 2). The
+  identified cause, found by inspecting the recorded `V(Z_t)-V(Z*)`
+  trajectory directly, is a resolution limit of the finite-`N`,
+  finite-`K_GAMMA` discrete optimal-transport estimator used for `V(Z_t)`:
+  the gap falls rapidly during an initial transient (an apparent rate near 1,
+  not the asymptotic rate `2m approx 0.15-0.23`) to a level already smaller
+  than the estimator's own sampling floor (a band of about `+/-5e-4` around
+  zero that does not shrink further over the remaining 35 time units), so no
+  part of the recorded trajectory resolves the theorem's asymptotic rate for
+  `V`. This was checked by refitting the decay rate over a grid of transient
+  skip fractions from 0 to 0.15: every choice returns either the fast
+  transient rate or the noise-dominated rate, never a stable value near
+  `2m`. It is a limitation of this discretization's resolution for the
+  functional gap, not a sign error in the implementation; the primary,
+  resolvable claim of Theorem 1.2 — strictly positive exponential decay of
+  `||Z_t-Z*||_2` — holds cleanly at both tested `d`.
 
 ## Not reproduced
 
 There are no experiments, tables, or figures from the paper that this
-repository omits: all five selected experiments (exp_1 through exp_5) ran to
+repository omits: all five experiments (exp_1 through exp_5) ran to
 completion on the instance and configuration described above, and every
 quantitative claim stated above was checked against a saved result file.

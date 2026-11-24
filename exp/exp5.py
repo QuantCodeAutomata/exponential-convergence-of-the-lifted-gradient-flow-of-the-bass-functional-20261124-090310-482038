@@ -29,7 +29,7 @@ Z_0, Z*, R, b, m_R) and checks, at the stopping times EXP5_EVAL_TIMES:
   * that the initial value M_0 approaches the corresponding nu0 atom as t
     grows, with error decaying at the same rate as ||g(Z_t)||_2.
 
-Run with `python -m exp.exp5` (reduced step count) or
+Run with `python -m exp.exp5` (default step count, see src/config.py) or
 `python -m exp.exp5 --full` (paper-scale step count, see src/config.py).
 Writes tables and a figure to results/.
 """

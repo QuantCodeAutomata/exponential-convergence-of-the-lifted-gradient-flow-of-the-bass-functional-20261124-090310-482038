@@ -30,12 +30,11 @@ verifies, in addition to the (vacuous-at-m=0) literal inequalities:
     numerically underflows to 0.
 
 Z* is approximated, as in exp_1's minimizer check, by the final iterate of
-one single long run of the gradient flow starting at the same Z_0: the
-paper notes this is necessarily how Z* must be obtained numerically, since
-it has no closed form (uncertainty noted in the experiment specification).
+one single long run of the gradient flow starting at the same Z_0, since the
+minimizer has no closed form and must be obtained numerically.
 
-Run with `python -m exp.exp4` (reduced step count) or
-`python -m exp.exp4 --full` (paper-scale step count, see src/config.py).
+Run with `python -m exp.exp4` (default step count, see src/config.py) or
+`python -m exp.exp4 --full` (paper-scale step count).
 Writes tables and a figure to results/.
 """
 

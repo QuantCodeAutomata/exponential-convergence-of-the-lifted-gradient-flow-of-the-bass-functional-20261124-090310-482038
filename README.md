@@ -1,7 +1,8 @@
 # Exponential Convergence of the Lifted Gradient Flow of the Bass Functional
 
-Numerical replication of selected results from *"Exponential Convergence of
-the Lifted Gradient Flow of the Bass Functional"*.
+Numerical replication of selected results from Danila Litvinov, *"Exponential
+Convergence of the Lifted Gradient Flow of the Bass Functional"*,
+arXiv:2610.40404 (math.PR), HSE University.
 
 This repository verifies, on a concrete synthetic instance obeying the
 standing assumptions of Section 1.1 (a pair of laws `nu0 <=_cx nu1` with
@@ -70,8 +71,8 @@ python -m pytest
 python -m exp.exp1
 python -m exp.exp2
 python -m exp.exp3
-python -m exp.exp4            # reduced run, see results/RESULTS.md
-python -m exp.exp4 --full     # paper-scale number of gradient-flow steps
+python -m exp.exp4            # paper-scale number of gradient-flow steps (800)
+python -m exp.exp4 --full     # same paper-scale count, selected explicitly
 python -m exp.exp5
 python -m exp.exp5 --full
 ```
