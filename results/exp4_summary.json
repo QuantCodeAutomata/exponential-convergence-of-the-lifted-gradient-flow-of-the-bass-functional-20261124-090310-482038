@@ -1,0 +1,32 @@
+[
+  {
+    "d": 1,
+    "n_steps": 300,
+    "R": 0.497814832003219,
+    "b": 0.14639055986623423,
+    "m_R": 0.0,
+    "log_m_R": -2992.1491487552667,
+    "fitted_rate_Z": 0.5535931662500313,
+    "fitted_rate_V": 0.7714444915302043,
+    "rate_ratio_V_over_Z": 1.3935224250614757,
+    "literal_bound_Z_holds": true,
+    "literal_bound_V_holds": true,
+    "mean_conserved_max_deviation": 9.415202437714452e-05,
+    "max_linf_Zt": 0.497814832003219
+  },
+  {
+    "d": 2,
+    "n_steps": 300,
+    "R": 0.5278163252573348,
+    "b": 0.11839547068696868,
+    "m_R": 0.0,
+    "log_m_R": -6921.207804985753,
+    "fitted_rate_Z": 0.3940621712914339,
+    "fitted_rate_V": 0.09302829725708706,
+    "rate_ratio_V_over_Z": 0.2360751780669826,
+    "literal_bound_Z_holds": true,
+    "literal_bound_V_holds": true,
+    "mean_conserved_max_deviation": 0.002980873164817215,
+    "max_linf_Zt": 0.5278163252573348
+  }
+]

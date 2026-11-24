@@ -63,6 +63,7 @@ EXP4_N_STEPS_PAPER = 800       # number of Euler steps in the paper configuratio
 EXP4_N_STEPS_RUN = 300         # number of Euler steps actually executed (reduced to keep the full study within the time available)
 EXP4_Z0_SCALE = 1.6            # initial vector Z0 = EXP4_Z0_SCALE * x_atoms (a bounded, L^infinity-valued perturbation of X)
 EXP4_FIT_SKIP_FRACTION = 0.15  # fraction of early iterations excluded from the log-linear decay-rate fit (transient removal)
+EXP4_FLOW_K_GAMMA = 60         # Gamma replicates per atom for the gradient-flow steps themselves (not specified in the paper): larger than the shared K_GAMMA because the flow reuses one fixed Gamma draw along the whole trajectory (common random numbers), so the finite-K Monte Carlo noise of the discrete-OT estimator of both g and V, not just a bias, must be small enough that the flow tracks the population ODE of Theorem 1.2 and the V(Z_t) decay-rate fit is not swamped by sampling noise
 
 # ---------------------------------------------------------------------------
 # exp_5: error in the initial value of the Bass martingale (Section 5)

@@ -97,6 +97,24 @@ def sample_bass_pair(
     noise = _sample_ball(rng, n_atoms * n_rep, d, noise_radius).reshape(n_atoms, n_rep, d)
     y_samples = (x_atoms[:, None, :] + noise).reshape(n_atoms * n_rep, d)
     assignment = np.repeat(np.arange(n_atoms), n_rep)
+
+    # nu0 <=_cx nu1 forces the two *population* means to coincide (Jensen's
+    # inequality applied to f(z) = +-e.z for every direction e); the noise
+    # added above has mean zero by construction, so this holds for the exact
+    # population laws. At finite sample size, however, the empirical mean of
+    # `y_samples` need not exactly equal the empirical mean of `x_atoms` (the
+    # realized average of `noise` over n_atoms*n_rep draws is itself only
+    # approximately zero). Re-centering `y_samples` here makes the *finite
+    # discretization* obey the exact-mean consequence of the convex order,
+    # which the gradient g(Z) = E[Y_Z|X]-X otherwise violates by a small but
+    # systematic constant (a discretization artifact, not a property of the
+    # flow): left uncorrected, Euler-integrating this constant bias over many
+    # gradient-flow steps (Theorem 1.2, exp_4) produces a spurious drift in
+    # E[Z_t] that numerically masks the mean-conservation property (Property
+    # 1.5) the flow should exhibit exactly.
+    mean_x = np.sum(x_weights[:, None] * x_atoms, axis=0)
+    mean_y = y_samples.mean(axis=0)
+    y_samples = y_samples - mean_y + mean_x
     M = float(np.linalg.norm(y_samples, axis=1).max())
 
     return {
