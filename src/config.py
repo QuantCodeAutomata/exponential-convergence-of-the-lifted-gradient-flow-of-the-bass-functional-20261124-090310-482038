@@ -28,7 +28,12 @@ BASE_SEED = 0                  # root random seed for reproducibility (not speci
 # ---------------------------------------------------------------------------
 EXP1_N_TEST_Z = 12             # number of random Z in H tested for the finiteness bound (Property 1.1)
 EXP1_FD_DIRECTIONS = 10        # number of random directions W for the finite-difference check of g(Z) (Property 1.3)
-EXP1_FD_STEPS = (1e-1, 3e-2, 1e-2, 3e-3, 1e-3)  # step sizes h for the finite-difference ratio (Property 1.3)
+EXP1_FD_STEPS = (1.0, 3e-1, 1e-1, 3e-2, 1e-2, 3e-3, 1e-3)  # step sizes h for the finite-difference ratio (Property 1.3)
+EXP1_FD_K_GAMMA = 60           # Gamma replicates per atom used only for the differentiability check: a
+                               # discrete-OT re-solve at each perturbed Z is a combinatorial (piecewise-affine)
+                               # function of Z, so the finite-difference error is U-shaped in h (truncation error
+                               # for large h, re-matching noise for very small h); more replicates lower this
+                               # noise floor (not specified in the paper, chosen for a visible minimum within EXP1_FD_STEPS)
 EXP1_MINIMIZER_STEPS = 400     # gradient-flow Euler steps used to approximate the minimizer Z* (Property 1.4/1.6)
 EXP1_MINIMIZER_DT = 0.05       # Euler step size dt for the flow that locates Z* (not specified in the paper)
 

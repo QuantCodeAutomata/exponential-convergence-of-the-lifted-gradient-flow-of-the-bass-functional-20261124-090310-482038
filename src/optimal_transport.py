@@ -87,7 +87,11 @@ def fit_brenier_map(
     target_weights = target_weights / target_weights.sum()
 
     cost = ot.dist(source, target, metric="sqeuclidean") / 2.0
-    plan, log = ot.emd(source_weights, target_weights, cost, log=True)
+    # numItermax scales with problem size: the network-simplex solver needs
+    # more pivots than its 100000 default once source/target grow past a few
+    # hundred points each.
+    iter_max = max(200_000, 200 * (len(source_weights) + len(target_weights)))
+    plan, log = ot.emd(source_weights, target_weights, cost, numItermax=iter_max, log=True)
     if log.get("warning"):
         raise RuntimeError(f"ot.emd did not converge cleanly: {log['warning']}")
 

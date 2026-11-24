@@ -1,0 +1,22 @@
+[
+  {
+    "d": 1,
+    "finiteness_bound_holds_for_all_trials": true,
+    "attainment_relative_w2": 0.006611359267782885,
+    "fd_error_at_largest_h": 0.008748711580199513,
+    "fd_error_at_best_h": 0.0011570506263882388,
+    "best_h": 0.1,
+    "fd_error_improves_from_largest_h": true,
+    "g_norm_ratio_at_minimizer": 0.918394665928456
+  },
+  {
+    "d": 2,
+    "finiteness_bound_holds_for_all_trials": true,
+    "attainment_relative_w2": 0.06575541889004485,
+    "fd_error_at_largest_h": 0.014496752458009934,
+    "fd_error_at_best_h": 0.005021414806888348,
+    "best_h": 0.3,
+    "fd_error_improves_from_largest_h": true,
+    "g_norm_ratio_at_minimizer": 1.201114776902743
+  }
+]
